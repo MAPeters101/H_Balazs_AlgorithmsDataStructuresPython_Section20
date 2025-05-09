@@ -4,7 +4,7 @@ import re
 class WebCrawler:
 
     def __init__(self):
-        # We want to avoid revisiting the same website over and over again
+        # we want to avoid revisiting the same website over and over again
         self.discovered_websites = []
 
     # BFS implementation
@@ -13,25 +13,22 @@ class WebCrawler:
         queue = [start_url]
         self.discovered_websites.append(start_url)
 
-        # THIS IS A STANDARD BREADTH_FIRST SEARCH
+        # THIS IS A STANDARD BREADTH-FIRST SEARCH
         while queue:
 
             actual_url = queue.pop(0)
             print(actual_url)
 
-            # This is the raw html representation of the given website (URL)
+            # this is the raw html representation of the given website (URL)
             actual_url_html = self.read_raw_html(actual_url)
-            print(actual_url_html)
 
             for url in self.get_links_from_html(actual_url_html):
-                print(url)
                 if url not in self.discovered_websites:
                     self.discovered_websites.append(url)
                     queue.append(url)
 
     def get_links_from_html(self, raw_html):
-        #return re.findall("https?://(?:[-\w.]|%[\da-fA-F]{2})+", raw_html)
-        return re.findall(r"^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$", raw_html)
+        return re.findall("https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+", raw_html)
 
     def read_raw_html(self, url):
 
